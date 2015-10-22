@@ -26,22 +26,35 @@ $(document).ready(function() {
         do_update_timer();
     });
     $("#btn_start_timer").click(function() {
-        intervalObj = setInterval(do_count_timer, 1000);
-        $("#div_progress_bar").addClass("active");
+        do_start_timer();
     });
     $("#btn_stop_timer").click(function() {
-        clearInterval(intervalObj);
-        $("#div_progress_bar").removeClass("active");
+        do_stop_timer();
     });
 });
 
 var time_count = 0;
 var time_allcount = 0;
 var intervalObj;
+function do_start_timer() {
+    clearInterval(intervalObj);
+    intervalObj = setInterval(do_count_timer, 1000);
+    $("#div_progress_bar").addClass("active");
+    $("#elsped_time").text(" 计时中");
+}
+
+function do_stop_timer() {
+    clearInterval(intervalObj);
+    $("#div_progress_bar").removeClass("active");
+    $("#elsped_time").text("");
+}
 
 function do_count_timer() {
     time_count++;
-    if(time_count >= time_allcount) time_count = time_allcount;
+    if(time_count >= time_allcount) {
+        time_count = time_allcount;
+        do_stop_timer();
+    }
     do_update_timer();
 }
 
